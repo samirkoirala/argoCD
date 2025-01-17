@@ -19,14 +19,14 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:Sulav-Adhikari/intern-gouserapi.git
+    repoURL: git@github.com:samirkoirala/argoCD.git
     targetRevision: main
     path: deploy/helm-deploy/app/helm
 
     helm:
       values: |
         image:
-          repository: registry-1.docker.io/sulavadk7/private
+          repository: registry-1.docker.io/samirkoirala/gouser
           tag: gouser-v1.0.0
         
         service:
