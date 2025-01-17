@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-application-go
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: main=registry-1.docker.io/sulavadk7/private
+    argocd-image-updater.argoproj.io/main.update-strategy: latest
+    argocd-image-updater.argoproj.io/main.pull-secret: pullsecret:argocd/dockerhub-secret 
+    argocd-image-updater.argoproj.io/main.allow-tags: regexp:^gouser-v[0-9]+\.[0-9]+\.[0-9]+$
+    argocd-image-updater.argoproj.io/main.helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/main.helm.image-tag: image.tag
+    argocd-image-updater.argoproj.io/write-back-method: git:secret:argocd/argocd
+    argocd-image-updater.argoproj.io/git-branch: main
+
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  namespace: argocd
+
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:Sulav-Adhikari/intern-gouserapi.git
+    targetRevision: main
+    path: deploy/helm-deploy/app/helm
+
+    helm:
+      values: |
+        image:
+          repository: registry-1.docker.io/sulavadk7/private
+          tag: gouser-v1.0.0
+        
+        service:
+          port: 3000
+          targetPort: 3000
+          nodePort: 31118
+
+        imagePullSecrets:
+         - name : dockerhub-secret
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: go
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true

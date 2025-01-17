@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: sulavadk7/gouser
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  name: gouser-service
+  type: NodePort
+  port: 9010
+  nodePort: 30007
+
+env:
+  DB_USER: "user"
+  DB_PASSWORD: "userpassword"
+  DB_HOST: "mysql-service"
+  DB_PORT: "3306"
+  DB_NAME: "simplerest"

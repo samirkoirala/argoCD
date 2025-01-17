@@ -1,0 +1,18 @@
+mysql:
+  image: mysql:8.0.40-debian
+  rootPassword: rootpassword
+  user: user
+  password: userpassword
+  database: simplerest
+
+service:
+  type: ClusterIP
+  port: 3306
+
+persistence:
+  enabled: true
+  storageClass: local-storage
+  size: 10Gi
+  path: /home/k3s/go/gouser/db/mysql-data
+  accessModes:
+    - ReadWriteOnce
