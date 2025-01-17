@@ -27,7 +27,7 @@ spec:
       values: |
         image:
           repository: registry-1.docker.io/samirkoirala/gouser
-          tag: gouser-v1.0.0
+          tag: gouser-sha256:86a1f4b38c088d9ff3cdafcd51ef16b10b644b9117f1087d824091dc6b152358
         
         service:
           port: 3000
